@@ -1,6 +1,8 @@
 [
   {
-    "namespace": "FolderFlags",
-    "functions": []
+ 
+    "functions": [ "injectElements", "localize", "injectChildren", "onLoad", "onUnload", "save" ]
+    "class": "FolderFlags"
+       "fuctions": [ "getAPI", "onStartup","onShutdown" ]
   }
 ]

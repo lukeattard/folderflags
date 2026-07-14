@@ -30,12 +30,14 @@
     function checkElements(stringOfIDs) {
       let arrayOfIDs = stringOfIDs.split(",").map((e) => e.trim());
       for (let id of arrayOfIDs) {
-        let element = window.document.getElementById(id);
-        if (element) {
+        try {
+          let element = window.document.getElementById(id);
           return element;
         }
-      }
-      return null;
+        catch(error) {
+          console.error(error);
+          return null;
+        }
     }
 
     function localize(entity) {
@@ -63,48 +65,18 @@
               ": insertafter " +
               insertAfterElement.id
             );
-          if (
-            debug &&
-            elements[i].id &&
-            window.document.getElementById(elements[i].id)
-          ) {
-            console.error(
-              "The id <" +
-              elements[i].id +
-              "> of the injected element already exists in the document!"
-            );
+          if (debug && elements[i].id && window.document.getElementById(elements[i].id)) {
+            console.error( "The id <" +  elements[i].id +  "> of the injected element already exists in the document!");
           }
           elements[i].setAttribute("data-extension-injected", extension.id);
-          insertAfterElement.parentNode.insertBefore(
-            elements[i],
-            insertAfterElement.nextSibling
-          );
-        } else if (
-          elements[i].hasAttribute("insertbefore") &&
-          checkElements(elements[i].getAttribute("insertbefore"))
-        ) {
-          let insertBeforeElement = checkElements(
-            elements[i].getAttribute("insertbefore")
-          );
+          insertAfterElement.parentNode.insertBefore( elements[i], insertAfterElement.nextSibling );
+        } else if (elements[i].hasAttribute("insertbefore") &&  checkElements(elements[i].getAttribute("insertbefore"))) {
+          let insertBeforeElement = checkElements(elements[i].getAttribute("insertbefore"));
 
           if (debug)
-            console.log(
-              elements[i].tagName +
-              "#" +
-              elements[i].id +
-              ": insertbefore " +
-              insertBeforeElement.id
-            );
-          if (
-            debug &&
-            elements[i].id &&
-            window.document.getElementById(elements[i].id)
-          ) {
-            console.error(
-              "The id <" +
-              elements[i].id +
-              "> of the injected element already exists in the document!"
-            );
+            console.log(elements[i].tagName + "#" +  elements[i].id + ": insertbefore " + insertBeforeElement.id );
+          if ( debug && elements[i].id && window.document.getElementById(elements[i].id)) {
+            console.error( "The id <" +  elements[i].id + "> of the injected element already exists in the document!" );
           }
           elements[i].setAttribute("data-extension-injected", extension.id);
           insertBeforeElement.parentNode.insertBefore(
